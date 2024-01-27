@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -33,7 +34,7 @@ public class Robot extends TimedRobot {
 
   XboxController controller = new XboxController(0);
 
-  private final double speed = 0.7;
+  private final double speed = 1;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -51,10 +52,10 @@ public class Robot extends TimedRobot {
     backLeft.follow(frontLeft);
     backRight.follow(frontRight);
 
-    // frontLeft.setNeutralMode(NeutralMode.Brake);
-    // frontRight.setNeutralMode(NeutralMode.Brake);
-    // backLeft.setNeutralMode(NeutralMode.Brake);
-    // frontRight.setNeutralMode(NeutralMode.Brake);
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
   }
 
   /**
@@ -105,8 +106,14 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    double lSpeed = controller.getRawAxis(1) * speed;
-    double rSpeed = controller.getRawAxis(5) * speed;
+    // double lSpeed = controller.getRawAxis(1) * speed;
+    // double rSpeed = controller.getRawAxis(5) * speed;
+    double leftJoystickValue = controller.getRawAxis(1);
+    double rightJoystickValue = controller.getRawAxis(5);
+
+    // Relation between joystick value and motor speed is a square root function
+    double lSpeed = Math.signum(leftJoystickValue)*(Math.sqrt(Math.abs(leftJoystickValue))) * speed;
+    double rSpeed = Math.signum(rightJoystickValue)*(Math.sqrt(Math.abs(rightJoystickValue))) * speed;
     //double lSpeed = controller.getRawAxis(1) * controller.getRawAxis(1) * (controller.getRawAxis(1) > 0 ? 1 :-1);
     //double rSpeed = controller.getRawAxis(5) * controller.getRawAxis(5) * (controller.getRawAxis(5) > 0 ? 1 : -1);
 
