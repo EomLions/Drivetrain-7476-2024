@@ -106,19 +106,18 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    // double lSpeed = controller.getRawAxis(1) * speed;
-    // double rSpeed = controller.getRawAxis(5) * speed;
     double leftJoystickValue = controller.getRawAxis(1);
     double rightJoystickValue = controller.getRawAxis(5);
 
     // Relation between joystick value and motor speed is a square root function
     double lSpeed = Math.signum(leftJoystickValue)*(Math.sqrt(Math.abs(leftJoystickValue))) * speed;
     double rSpeed = Math.signum(rightJoystickValue)*(Math.sqrt(Math.abs(rightJoystickValue))) * speed;
+
+    // squaring joystick value
     //double lSpeed = controller.getRawAxis(1) * controller.getRawAxis(1) * (controller.getRawAxis(1) > 0 ? 1 :-1);
     //double rSpeed = controller.getRawAxis(5) * controller.getRawAxis(5) * (controller.getRawAxis(5) > 0 ? 1 : -1);
 
     drive.tankDrive(lSpeed, rSpeed);
-    // drive.arcadeDrive(controller.getRawAxis(1), controller.getRawAxis(4));
   } 
 
   /** This function is called once when the robot is disabled. */
